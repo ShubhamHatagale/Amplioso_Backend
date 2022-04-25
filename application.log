@@ -1,0 +1,83 @@
+[2021-01-21T10:26:36.338] [INFO] default - [
+  users {
+    dataValues: {
+      id: 14,
+      name: 'zoha',
+      email: 'zoha@gmail.com',
+      password: '$2a$12$f8hKM0oOPhAVAHoKsoTQ.upqt2QsmPcHpWZI3yY9yHljvb645omxm',
+      createdAt: 2021-01-19T08:14:59.000Z,
+      updatedAt: 2021-01-19T08:14:59.000Z
+    },
+    _previousDataValues: {
+      id: 14,
+      name: 'zoha',
+      email: 'zoha@gmail.com',
+      password: '$2a$12$f8hKM0oOPhAVAHoKsoTQ.upqt2QsmPcHpWZI3yY9yHljvb645omxm',
+      createdAt: 2021-01-19T08:14:59.000Z,
+      updatedAt: 2021-01-19T08:14:59.000Z
+    },
+    _changed: Set {},
+    _options: {
+      isNewRecord: false,
+      _schema: null,
+      _schemaDelimiter: '',
+      raw: true,
+      attributes: [Array]
+    },
+    isNewRecord: false
+  },
+  users {
+    dataValues: {
+      id: 15,
+      name: 'sadiya',
+      email: 'sadiya@gmail.com',
+      password: '$2a$12$AhPv.pi7pmfeZpzMVmRmEu1q0I4CUd5IogcL6TkLA1tOhrYBULp/e',
+      createdAt: 2021-01-19T10:52:49.000Z,
+      updatedAt: 2021-01-19T10:52:49.000Z
+    },
+    _previousDataValues: {
+      id: 15,
+      name: 'sadiya',
+      email: 'sadiya@gmail.com',
+      password: '$2a$12$AhPv.pi7pmfeZpzMVmRmEu1q0I4CUd5IogcL6TkLA1tOhrYBULp/e',
+      createdAt: 2021-01-19T10:52:49.000Z,
+      updatedAt: 2021-01-19T10:52:49.000Z
+    },
+    _changed: Set {},
+    _options: {
+      isNewRecord: false,
+      _schema: null,
+      _schemaDelimiter: '',
+      raw: true,
+      attributes: [Array]
+    },
+    isNewRecord: false
+  },
+  users {
+    dataValues: {
+      id: 16,
+      name: 'saniya',
+      email: 'shaik@gmail.com',
+      password: '$2a$12$4Sc.07X/rKOtX4HGp546xuVrJ4A0iCkk6qnvS3NO4a7MM3s.Eb38.',
+      createdAt: 2021-01-19T11:09:16.000Z,
+      updatedAt: 2021-01-19T11:09:16.000Z
+    },
+    _previousDataValues: {
+      id: 16,
+      name: 'saniya',
+      email: 'shaik@gmail.com',
+      password: '$2a$12$4Sc.07X/rKOtX4HGp546xuVrJ4A0iCkk6qnvS3NO4a7MM3s.Eb38.',
+      createdAt: 2021-01-19T11:09:16.000Z,
+      updatedAt: 2021-01-19T11:09:16.000Z
+    },
+    _changed: Set {},
+    _options: {
+      isNewRecord: false,
+      _schema: null,
+      _schemaDelimiter: '',
+      raw: true,
+      attributes: [Array]
+    },
+    isNewRecord: false
+  }
+]
