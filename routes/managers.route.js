@@ -6,9 +6,11 @@ const { validate } = require('../config/validate');
 module.exports = (router) => {
     router.get('/company/all_users/:comId', managersController.getusersRecords);
     router.get('/company/managers/:comId', managersController.getRecords);
+    router.get('/company/managers/data/allData', managersController.getAllRecords);
+
     router.get('/company/managers/id/:userId', managersController.getRecordsById);
     router.post('/company/managers/forgot_password',
-        validate([ 
+        validate([
             body('user_email').not().isEmpty().withMessage("This field is Required").matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/).withMessage('Please enter a valid username.'),
         ]),
         managersController.forgotPassword);

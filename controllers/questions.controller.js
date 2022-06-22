@@ -82,6 +82,7 @@ exports.getRecordsByQueType = async (req, res, next) => {
         }
         res.status(200).json({
             message: "Result Fetched",
+            status:200,
             data: Data
         })
     } catch (error) {

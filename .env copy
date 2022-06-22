@@ -1,10 +1,8 @@
 DB_HOST=localhost
 DB_USER=root
 DB_DATA=Amplioso
-DB_PASS=
+DB_PASS=welcome123
 PORT=9000
 GMAIL_USER=shubhamhatagale22249@gmail.com
-GMAIL_PASS=zviukxwqpabpkpft
-GMAIL_Old_PASS=Markiv@2021
-
+GMAIL_PASS=Markiv@2021
 secret_key_for_amplioso_survey_link=2868bc33f842f61c1caf6df26f3c8045d964312766c8594c3af83d667f3366e8

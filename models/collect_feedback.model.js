@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
 const Employee = require('./employee.model');
 const Company = require('./companies.model');
-const Manager = require('./managers.model'); 
+const Manager = require('./managers.model');
 const Role = require('./roles.model');
 
 const Collect_feedback = sequelize.define('collect_feedback', {
@@ -68,6 +68,10 @@ const Collect_feedback = sequelize.define('collect_feedback', {
             model: Role,
             key: 'id',
         }
+    },
+    token: {
+        type: Sequelize.CHAR,
+        allowNull: true
     },
     status: {
         type: Sequelize.CHAR,

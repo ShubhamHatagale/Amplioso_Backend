@@ -16,7 +16,16 @@ const survey_answers = sequelize.define('survey_answers', {
   survey_user_mapping_id: {
     type: Sequelize.INTEGER
   },
+  employee_id: {
+    type: Sequelize.INTEGER
+  },
   surveyor_id: {
+    type: Sequelize.INTEGER
+  },
+  manager_id: {
+    type: Sequelize.INTEGER
+  },
+  company_id: {
     type: Sequelize.INTEGER
   },
   question_id: {

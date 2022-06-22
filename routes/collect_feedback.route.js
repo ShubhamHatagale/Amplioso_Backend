@@ -7,6 +7,9 @@ module.exports = (router) => {
     router.get('/collect_feedback/employee/:EmpId', Collect_feedback.getRecordsByEmpId);
     router.get('/collect_feedback/company/:ComId', Collect_feedback.getRecordsByComId);
     router.get('/collect_feedback/:id', Collect_feedback.getRecordsById);
+    router.get('/collect_feedback/email/:email_id', Collect_feedback.getRecordsByEmailId);
+    router.get('/collect_feedback/check/test/getCheck', Collect_feedback.getCheck);
+
     router.post('/check_survey_key', Collect_feedback.check_survey_key);
 
     router.post('/collect_feedback', validate([

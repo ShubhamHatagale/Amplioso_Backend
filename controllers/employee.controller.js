@@ -9,7 +9,7 @@ const Role = require('../models/roles.model');
 var moment = require("moment");
 const TZ = moment.tz("Asia/Kolkata").format();
 
-exports.getRecordsByManagerId = async (req, res, next) => {
+exports.getRecordsByManagerId = async (req, res, next) => { 
     try {
         const EmpData = await Employee.findAll({
             include: [

@@ -42,6 +42,7 @@ exports.getRecords = async (req, res, next) => {
         res.status(200).json({
             message: "Result Fetched",
             data: Data,
+            status: 200,
             totalItems: totalItems.count
         })
     } catch (error) {
@@ -57,6 +58,7 @@ exports.getusersRecords = async (req, res, next) => {
         const results = await sequelize.query(`SELECT first_name,last_name,user_email,role  FROM managers  WHERE company_id='${req.params.comId}'AND is_deleted='0' UNION  SELECT first_name,last_name,user_email,role FROM employee  WHERE company_id='${req.params.comId}'AND is_deleted='0'  UNION  SELECT first_name,last_name,user_email,role FROM collect_feedback  WHERE company_id='${req.params.comId}'AND is_deleted='0'`, { type: QueryTypes.SELECT });
         res.status(200).json({
             message: "Result Fetched",
+            status:200,
             data: results,
         })
     } catch (error) {
@@ -98,6 +100,37 @@ exports.getRecordsById = async (req, res, next) => {
     }
 }
 
+exports.getAllRecords = async (req, res, next) => {
+    try {
+        const Data = await Managers.findAll({
+            // include: [
+            //     {
+            //         model: Company,
+            //         attributes: ['id', 'company_name'],
+            //     },
+            // ],
+            where: { is_deleted: '0' },
+        });
+        if (!Data) {
+            return res.status(404).json({
+                status: 404,
+                message: 'could not find result',
+            })
+        }
+        res.status(200).json({
+            message: "Result Fetched",
+            status: 200,
+            data: Data
+        })
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+        helper.logger.info(error)
+    }
+}
+
 exports.postRecords = async (req, res, next) => {
     console.log("ffff")
     function generateP() {
@@ -111,9 +144,7 @@ exports.postRecords = async (req, res, next) => {
         }
         return pass;
     }
-    // ymcgneUE
-    // shubhamhatagale22249@gmail.com
-    // uZDvVl1O
+
     var password = generateP();
     console.table(req.body.first_name + "Generated  Password : " + password);
     var hash = crypto.createHash('sha512');
@@ -162,7 +193,7 @@ exports.postRecords = async (req, res, next) => {
         <p>${CompanyName} has taken an important step of assigning you as a manager with our portal. Your account has now been activated.  </p>
         <p>You now have access to our exclusive Manager portal from where you’ll be able to launch and manage feedback surveys for your teams, view results, administer settings and much more.  You can log in to the portal on our website (Amplioso.com) using the <a href="http://dev.amplioso.com/">Log</a> In link at the top of the home page</p>
         <p>Username: ${req.body.user_email}</p>
-        <p>Username: ${password}</p>
+        <p>Password: ${password}</p>
         <p>Please also be sure to visit our FAQs page for frequently asked questions and tips. Should you need anything else in the interim or have feedback for us, please do not hesitate to reach out to us at portalsupport@amplioso.com.</p>
         <br/><p>Welcome!</p>
         <p>Amplioso Support Team</p>

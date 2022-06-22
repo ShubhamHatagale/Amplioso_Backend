@@ -6,7 +6,7 @@ const helper = require('../config/helpers');
 module.exports = (router) => {
     router.get('/employeedetails/manager/:managerId', Employee.getRecordsByManagerId);
     router.get('/employeedetails/company/:ComId', Employee.getRecordsByCompanyId);
-    router.get('/employeedetails/:id', Employee.getRecordsById);
+    router.get('/employeedetails/:id', Employee.getRecordsById); 
     router.get('/employeedetails/email/:EmailId', Employee.getRecordsByEmailId);
 
     router.post('/employeedetails', validate([

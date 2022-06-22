@@ -33,6 +33,7 @@ exports.getRecordsByEmpId = async (req, res, next) => {
         }
         res.status(200).json({
             message: "Result Fetched",
+            status: 200,
             data: Data
         })
     } catch (error) {
@@ -66,6 +67,7 @@ exports.getRecordsByComId = async (req, res, next) => {
         }
         res.status(200).json({
             message: "Result Fetched",
+            status: 200,
             data: Data
         })
     } catch (error) {
@@ -89,6 +91,7 @@ exports.getRecordsById = async (req, res, next) => {
         }
         res.status(200).json({
             message: "Result Fetched",
+            status: 200,
             data: Data
         })
     } catch (error) {
@@ -99,8 +102,32 @@ exports.getRecordsById = async (req, res, next) => {
         helper.logger.info(error)
     }
 }
-// esyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImlhdCI6MTY0NDA1Nzc0NiwiZXhwIjoxNjQ1MzUzNzQ2fQ.jziJToVmI02j17Z3_irL1M_TDkVKvXLst-qQJkF-WTY
 
+
+exports.getRecordsByEmailId = async (req, res, next) => {
+    try {
+        const Data = await Collect_feedback.findAll({
+            where: { user_email: req.params.email_id, is_deleted: 0 }
+        });
+        if (!Data) {
+            return res.status(404).json({
+                status: 404,
+                message: 'could not find result',
+            })
+        }
+        res.status(200).json({
+            message: "Result Fetched",
+            status: 200,
+            data: Data
+        })
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+        helper.logger.info(error)
+    }
+}
 
 exports.check_survey_key = async (req, res, next) => {
     console.log(req.body.token_ele)
@@ -108,6 +135,7 @@ exports.check_survey_key = async (req, res, next) => {
         const sec_key = await process.env.secret_key_for_amplioso_survey_link;
         const token_ele = req.body.token_ele;
         const userVar = await jwt.verify(token_ele, sec_key);
+
         if (!userVar) {
             return res.status(404).json({
                 status: 404,
@@ -115,8 +143,8 @@ exports.check_survey_key = async (req, res, next) => {
             })
         }
         res.status(200).json({
-            status: 200,
             message: "Result Fetched",
+            status: 200,
             data: userVar
         })
 
@@ -169,13 +197,49 @@ async function survey_key(manager_id) {
 }
 
 
-// console.log('\033c')
+console.log('\033c')
+console.table({ "hi": "ddd" })
+
+
+exports.getCheck = async (req, res, next) => {
+    try {
+        const Data = await Collect_feedback.findOne({
+            order: [[`id`, `DESC`]]
+        });
+        console.table(Data == null ? 1 : Data.id)
+        if (!Data) {
+            return res.status(404).json({
+                status: 404,
+                message: 'could not find result',
+            })
+        }
+        res.status(200).json({
+            message: "Result Fetched",
+            status: 200,
+            data: Data.id + 1
+        })
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+        helper.logger.info(error)
+    }
+}
+
 
 
 exports.postRecords = async (req, res, next) => {
     console.table({ "hi": "ddd" })
+    const feed_last_id = await Collect_feedback.findOne({
+        order: [[`id`, `DESC`]]
+    });
+    console.log("hddh" + req.body.manager_id)
+    console.log(feed_last_id)
+    console.log(feed_last_id == null ? 1 : feed_last_id.id + 1)
+    const tkn = await survey_key(feed_last_id == null ? 1 : feed_last_id.id + 1);
+    console.table({"shubham_tkn:": tkn })
 
-    console.log("hh" + req.body.manager_id)
     const t = await sequelize.transaction();
     let EmployeeLastName, EmployeeFirstName, ManagerFirstName, ManagerLastName;
     let activeDate = moment().tz(TZ).utcOffset("+05:30").format('DD MMM YYYY');
@@ -194,6 +258,7 @@ exports.postRecords = async (req, res, next) => {
             manager_id: req.body.manager_id,
             company_id: req.body.company_id,
             role: req.body.role,
+            token: tkn,
             period_start: activeDate,
             period_end: EndDate,
         }, { transaction: t })
@@ -228,9 +293,10 @@ exports.postRecords = async (req, res, next) => {
                 message: 'No data found'
             })
         } else {
-            console.log(collect_feedback.id)
-            const tkn = await survey_key(collect_feedback.id);
-            console.table({ tkn })
+            // console.log(collect_feedback.id)
+            // const tkn = await survey_key(collect_feedback.id);
+            // console.table({ tkn })
+            console.log("mail")
             const sub = ` Action Requested: ${EmployeeFirstName} ${EmployeeLastName} Performance Feedback (${activeDate} - ${EndDate})`;
             const toBcc = ['shubhamhatagale02@gmail.com'];
             const content = ` <p>Dear ${req.body.first_name} ${req.body.last_name}</p>
@@ -247,7 +313,7 @@ exports.postRecords = async (req, res, next) => {
                 message: 'Data Added Successfully',
             });
         }
-       
+
     } catch (error) {
         t.rollback();
         helper.logger.info(error)
