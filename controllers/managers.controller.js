@@ -58,7 +58,7 @@ exports.getusersRecords = async (req, res, next) => {
         const results = await sequelize.query(`SELECT first_name,last_name,user_email,role  FROM managers  WHERE company_id='${req.params.comId}'AND is_deleted='0' UNION  SELECT first_name,last_name,user_email,role FROM employee  WHERE company_id='${req.params.comId}'AND is_deleted='0'  UNION  SELECT first_name,last_name,user_email,role FROM collect_feedback  WHERE company_id='${req.params.comId}'AND is_deleted='0'`, { type: QueryTypes.SELECT });
         res.status(200).json({
             message: "Result Fetched",
-            status:200,
+            status: 200,
             data: results,
         })
     } catch (error) {
@@ -187,7 +187,9 @@ exports.postRecords = async (req, res, next) => {
             ));
             console.log(CompanyName);
             const sub = `${CompanyName}: Welcome to Amplioso.com!`;
-            const toBcc = ['ravikantmadas@gmail.com', 'shubhamhatagale02@gmail.com'];
+            // const toBcc = ['ravikantmadas@gmail.com', 'shubhamhatagale02@gmail.com'];
+            const toBcc = [req.body.user_email];
+
             const content = ` <p>Dear ${req.body.first_name} ${req.body.last_name}</p>
         <p>Greetings from Amplioso.com! We help you improve the performance of your teams by getting 360-degree performance feedback right. </p>
         <p>${CompanyName} has taken an important step of assigning you as a manager with our portal. Your account has now been activated.  </p>
@@ -329,7 +331,7 @@ exports.postResetpassword = async (req, res, next) => {
             })
         }
         const sub = " Amplioso.com Acknowledgement: Password change  ";
-        const toBcc = ['ravikantmadas@gmail.com', 'shubhamhatagale02@gmail.com'];
+        const toBcc = [ManagerEmail];
         const content = ` <p>Dear ${firstName} ${lastName}</p>
         <p>Greetings from Amplioso.com! Just a note to let you know that your password has been successfully changed with us just a few moments ago.</p>
         <p>Should you need anything else in the interim or have feedback for us, please do not hesitate to reach out to us at portalsupport@amplioso.com.</p>
@@ -401,7 +403,7 @@ exports.forgotPassword = async (req, res, next) => {
             })
         }
         const sub = " Amplioso.com: We’ve got a new temporary password for you! ";
-        const toBcc = ['ravikantmadas@gmail.com', 'shubhamhatagale02@gmail.com'];
+        const toBcc = [req.body.user_email];
         const content = ` <p>Dear ${firstName} ${lastName}</p>
       <p>Greetings from Amplioso.com! We’ve received your request to provide a new temporary password for your account. Here it is:    </p>
       <p>Temporary Password : ${password}</p>

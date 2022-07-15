@@ -9,7 +9,7 @@ const Role = require('../models/roles.model');
 var moment = require("moment");
 const TZ = moment.tz("Asia/Kolkata").format();
 
-exports.getRecordsByManagerId = async (req, res, next) => { 
+exports.getRecordsByManagerId = async (req, res, next) => {
     try {
         const EmpData = await Employee.findAll({
             include: [
@@ -45,7 +45,7 @@ exports.getRecordsByEmailId = async (req, res, next) => {
         const EmpData = await Employee.findAll({
             where: { user_email: req.params.EmailId, is_deleted: 0 }
         });
-        
+
         if (!EmpData) {
             return res.status(404).json({
                 status: 404,
@@ -68,16 +68,12 @@ exports.getRecordsByEmailId = async (req, res, next) => {
 
 exports.getRecordsByCompanyId = async (req, res, next) => {
     try {
-        const EmpData = await Employee.findAll({
+        const EmpData = await Employee.findAll({ 
             include: [
                 { model: Manager, as: 'ManagerId', attributes: ['id', 'first_name'] },
                 { model: Countries, as: 'CountryId', attributes: ['id', 'country_name'] },
                 { model: Company, as: 'CompanyId', attributes: ['id', 'company_name'] },
-                {
-                    model: Role,
-                    as: 'ViewRole',
-                    attributes: ['id', 'role'],
-                },
+                { model: Role, as: 'ViewRole', attributes: ['id', 'role'] },
             ],
             where: { company_id: req.params.ComId, is_deleted: 0 }
         });

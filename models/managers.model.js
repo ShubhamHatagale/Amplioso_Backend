@@ -79,7 +79,7 @@ const Managers = sequelize.define('managers', {
     },
 }, {
     freezeTableName: true
-});
+}); 
 
 Managers.belongsTo(Role, { foreignKey: 'role', as: 'ViewRole' });
 module.exports = Managers;

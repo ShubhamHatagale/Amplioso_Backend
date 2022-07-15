@@ -89,6 +89,10 @@ const Collect_feedback = sequelize.define('collect_feedback', {
 // Collect_feedback.belongsTo(Employee, { foreignKey: 'employee_id', as: 'CFEmployeeId' });
 // Collect_feedback.belongsTo(Manager, { foreignKey: 'manager_id', as: 'CFManagerId' });
 // Collect_feedback.belongsTo(Role, { foreignKey: 'role', as: 'ViewRole' });
+
+Collect_feedback.belongsTo(Manager, { foreignKey: 'manager_id', as: 'ManagerId' });
+Collect_feedback.belongsTo(Company, { foreignKey: 'company_id', as: 'CompanyId' });
+
 module.exports = Collect_feedback;
 
 

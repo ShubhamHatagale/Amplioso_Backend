@@ -5,6 +5,8 @@ const helper = require('../config/helpers');
 const Role = require('../models/roles.model');
 const Employee = require('../models/employee.model');
 const Managers = require('../models/managers.model');
+const Manager = require('../models/managers.model');
+
 const Company = require('../models/companies.model');
 var moment = require("moment");
 const jwt = require('jsonwebtoken');
@@ -81,6 +83,11 @@ exports.getRecordsByComId = async (req, res, next) => {
 exports.getRecordsById = async (req, res, next) => {
     try {
         const Data = await Collect_feedback.findAll({
+            include: [
+                { model: Manager, as: 'ManagerId', attributes: ['id', 'first_name'] },
+                { model: Company, as: 'CompanyId', attributes: ['id', 'company_name'] },
+
+            ],
             where: { id: req.params.id, is_deleted: 0 }
         });
         if (!Data) {
@@ -238,7 +245,7 @@ exports.postRecords = async (req, res, next) => {
     console.log(feed_last_id)
     console.log(feed_last_id == null ? 1 : feed_last_id.id + 1)
     const tkn = await survey_key(feed_last_id == null ? 1 : feed_last_id.id + 1);
-    console.table({"shubham_tkn:": tkn })
+    console.table({ "shubham_tkn:": tkn })
 
     const t = await sequelize.transaction();
     let EmployeeLastName, EmployeeFirstName, ManagerFirstName, ManagerLastName;

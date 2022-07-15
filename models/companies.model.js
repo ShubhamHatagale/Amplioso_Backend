@@ -130,11 +130,15 @@ const Company = sequelize.define('companies', {
         defaultValue: '0',
         allowNull: false
     },
+    paymt_sts: {
+        type: Sequelize.ENUM('0', '1'),
+        defaultValue: '0',
+        allowNull: false
+    }
 }, {
     freezeTableName: true
 });
 User.belongsTo(Company, { foreignKey: 'company_id', constraints: false })
-
 Company.belongsTo(Role, { foreignKey: 'role', as: 'CompanyRole' });
 Company.belongsTo(User, { foreignKey: 'created_by', as: 'CompanyCreated' });
 Company.belongsTo(User, { foreignKey: 'updated_by', as: 'CompanyUpdated' });
