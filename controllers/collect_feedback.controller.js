@@ -309,7 +309,7 @@ exports.postRecords = async (req, res, next) => {
             const content = ` <p>Dear ${req.body.first_name} ${req.body.last_name}</p>
             <p>The gift of rich and actionable feedback can be a powerful thing. As I put together the performance evaluation for ${EmployeeFirstName} for the ${activeDate} – ${EndDate} period, you have been identified as someone who can provide feedback that will serve as the bedrock for the assessment.</p>
             <p>We’re leveraging the feedback survey expertise of one of our partners (amplioso.com); they understand 360-degree performance feedback better than anyone else and leveraging their novel approach on the metrics that matter means that you’ll be done in just a few minutes.</p>
-            <p>Please click <a href="http://amplioso_survey.com/tkn/${tkn}">here</a> to share your feedback. Results will be kept anonymous and shared in aggregate. The survey link will be active until ${EndDate}</p>
+            <p>Please click <a href="http://dev.amplioso.com/amplioso-survey/tkn/${tkn}">here</a> to share your feedback. Results will be kept anonymous and shared in aggregate. The survey link will be active until ${EndDate}</p>
             <p>Thank you in advance for your time and the gift of feedback. Please do not hesitate to reach out me if I can help with anything.</p>
             <br/><p>Sincerely,</p>
             <p>${ManagerFirstName} ${ManagerLastName}</p>`;
