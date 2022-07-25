@@ -9,6 +9,30 @@ const Role = require('../models/roles.model');
 var moment = require("moment");
 const TZ = moment.tz("Asia/Kolkata").format();
 
+
+exports.getRecords = async (req, res, next) => {
+    try {
+        const EmpData = await Employee.findAll({
+            where: { is_deleted: 0 }
+        });
+        if (!EmpData) {
+            return res.status(404).json({
+                status: 404,
+                message: 'could not find result',
+            })
+        }
+        res.status(200).json({
+            message: "Result Fetched",
+            data: EmpData
+        })
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+        helper.logger.info(error)
+    }
+}
 exports.getRecordsByManagerId = async (req, res, next) => {
     try {
         const EmpData = await Employee.findAll({
@@ -68,7 +92,7 @@ exports.getRecordsByEmailId = async (req, res, next) => {
 
 exports.getRecordsByCompanyId = async (req, res, next) => {
     try {
-        const EmpData = await Employee.findAll({ 
+        const EmpData = await Employee.findAll({
             include: [
                 { model: Manager, as: 'ManagerId', attributes: ['id', 'first_name'] },
                 { model: Countries, as: 'CountryId', attributes: ['id', 'country_name'] },
@@ -145,6 +169,7 @@ exports.postRecords = async (req, res, next) => {
             role: req.body.role,
             company_id: req.body.company_id,
             manager_id: req.body.manager_id,
+            prev_manager_id: req.body.manager_id,
             period_start: activeDate,
             period_end: EndDate,
             feedback_frequency: req.body.feedback_frequency,
@@ -210,6 +235,7 @@ exports.updateRecords = async (req, res, next) => {
             role: req.body.role,
             company_id: req.body.company_id,
             manager_id: req.body.manager_id,
+            prev_manager_id: req.body.manager_id,
             feedback_frequency: req.body.feedback_frequency,
             feedback_year: req.body.feedback_year,
             feedback_month: req.body.feedback_month,
@@ -258,6 +284,33 @@ exports.deleteRecords = async (req, res, next) => {
         res.status(200).json({
             status: 200,
             message: 'Record Deleted Successfully',
+        });
+    } catch (error) {
+        t.rollback();
+        helper.logger.info(error)
+        return res.status(500).send({
+            message: 'Unable to Delete Record',
+            status: 500
+        });
+    }
+};
+exports.updateManagerId = async (req, res, next) => {
+    const t = await sequelize.transaction();
+    try {
+        const EmpDetails = await Employee.update({
+            manager_id: req.body.manager_id
+        },
+            { where: { manager_id: req.params.id } }, { transaction: t });
+        t.commit();
+        if (!EmpDetails) {
+            return res.status(200).json({
+                status: 404,
+                message: 'No data found'
+            })
+        }
+        res.status(200).json({
+            status: 200,
+            message: 'Record Updated Successfully',
         });
     } catch (error) {
         t.rollback();

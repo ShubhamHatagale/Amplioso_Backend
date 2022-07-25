@@ -44,6 +44,14 @@ const Collect_feedback = sequelize.define('collect_feedback', {
         //     key: 'id'
         // }
     },
+    prev_manager_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {         // id from Manager would be referenced here
+            model: Manager,
+            key: 'id'
+        }
+    },
     manager_id: {
         type: Sequelize.INTEGER,
         allowNull: false,

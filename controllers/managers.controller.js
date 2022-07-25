@@ -10,6 +10,37 @@ const sequelize = require('../config/database');
 const Role = require('../models/roles.model');
 const { QueryTypes } = require('sequelize');
 
+
+exports.getAllManagersRecords = async (req, res, next) => {
+    try {
+        const Data = await Managers.findAll({
+            // include: [
+            //     {
+            //         model: Company,
+            //         attributes: ['id', 'company_name'],
+            //     },
+            // ],
+            where: {is_deleted: '0' },
+        });
+        if (!Data) {
+            return res.status(404).json({
+                status: 404,
+                message: 'could not find result',
+            })
+        }
+        res.status(200).json({
+            message: "Result Fetched",
+            data: Data
+        })
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+        helper.logger.info(error)
+    }
+}
+
 exports.getRecords = async (req, res, next) => {
     let queryData = url.parse(req.url, true).query;
     try {

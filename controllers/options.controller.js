@@ -127,8 +127,10 @@ exports.postRecords = async (req, res, next) => {
     const t = await sequelize.transaction();
     try {
         const Option = await Options.create({
+            question_id: req.body.question_id,
             option: req.body.option,
-            question_option_mapping_id: req.body.question_option_mapping_id,
+            // option: req.body.option,
+            // question_option_mapping_id: req.body.question_option_mapping_id,
         }, { transaction: t })
         t.commit();
         if (!Option) {

@@ -4,9 +4,10 @@ const { validate } = require('../config/validate');
 const helper = require('../config/helpers');
 
 module.exports = (router) => {
+    router.get('/employeedetails', Employee.getRecords);
     router.get('/employeedetails/manager/:managerId', Employee.getRecordsByManagerId);
-    router.get('/employeedetails/company/:ComId', Employee.getRecordsByCompanyId); 
-    router.get('/employeedetails/:id', Employee.getRecordsById); 
+    router.get('/employeedetails/company/:ComId', Employee.getRecordsByCompanyId);
+    router.get('/employeedetails/:id', Employee.getRecordsById);
     router.get('/employeedetails/email/:EmailId', Employee.getRecordsByEmailId);
 
     router.post('/employeedetails', validate([
@@ -45,5 +46,8 @@ module.exports = (router) => {
         body('working_presence').not().isEmpty().withMessage("This field is Required").isInt(),
         body('year_of_experience').not().isEmpty().withMessage("This field is Required").isInt(),
     ]), Employee.updateRecords);
+    router.put('/employeedetails/manager_id/update/:id', Employee.updateManagerId);
+
     router.delete('/employeedetails/:id', Employee.deleteRecords);
+
 }

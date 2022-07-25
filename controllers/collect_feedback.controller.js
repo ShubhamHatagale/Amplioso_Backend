@@ -12,6 +12,37 @@ var moment = require("moment");
 const jwt = require('jsonwebtoken');
 const TZ = moment.tz("Asia/Kolkata").format();
 
+exports.getRecords = async (req, res, next) => {
+    try {
+        const Data = await Collect_feedback.findAll({
+            // include: [{
+            //     model: Role,
+            //     as: 'ViewRole',
+            //     attributes: ['id', 'role'],
+            // },],
+            where: { is_deleted: 0 }
+        });
+        if (!Data) {
+            return res.status(404).json({
+                status: 404,
+                message: 'could not find result',
+            })
+        }
+        res.status(200).json({
+            message: "Result Fetched",
+            status: 200,
+            data: Data
+        })
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+        helper.logger.info(error)
+    }
+}
+
+
 exports.getRecordsByEmpId = async (req, res, next) => {
     try {
         const Data = await Collect_feedback.findAll({
@@ -53,11 +84,11 @@ exports.getRecordsByComId = async (req, res, next) => {
                 // { model: Manager, as: 'CFManagerId', attributes: ['id', 'first_name'] },
                 // { model: Employee, as: 'CFEmployeeId', attributes: ['id', 'first_name'] },
                 // { model: Company, as: 'CFCompanyId', attributes: ['id', 'company_name'] },
-                {
-                    model: Role,
-                    as: 'ViewRole',
-                    attributes: ['id', 'role'],
-                },
+                // {
+                //     model: Role,
+                //     as: 'ViewRole',
+                //     attributes: ['id', 'role'],
+                // },
             ],
             where: { company_id: req.params.ComId, is_deleted: 0 }
         });
@@ -263,6 +294,7 @@ exports.postRecords = async (req, res, next) => {
             user_email: req.body.user_email,
             employee_id: req.body.employee_id,
             manager_id: req.body.manager_id,
+            prev_manager_id: req.body.manager_id,
             company_id: req.body.company_id,
             role: req.body.role,
             token: tkn,
@@ -309,7 +341,7 @@ exports.postRecords = async (req, res, next) => {
             const content = ` <p>Dear ${req.body.first_name} ${req.body.last_name}</p>
             <p>The gift of rich and actionable feedback can be a powerful thing. As I put together the performance evaluation for ${EmployeeFirstName} for the ${activeDate} – ${EndDate} period, you have been identified as someone who can provide feedback that will serve as the bedrock for the assessment.</p>
             <p>We’re leveraging the feedback survey expertise of one of our partners (amplioso.com); they understand 360-degree performance feedback better than anyone else and leveraging their novel approach on the metrics that matter means that you’ll be done in just a few minutes.</p>
-            <p>Please click <a href="http://dev.amplioso.com/amplioso-survey/tkn/${tkn}">here</a> to share your feedback. Results will be kept anonymous and shared in aggregate. The survey link will be active until ${EndDate}</p>
+            <p>Please click <a href="http://dev.amplioso.com/main_amp/tkn/${tkn}">here</a> to share your feedback. Results will be kept anonymous and shared in aggregate. The survey link will be active until ${EndDate}</p>
             <p>Thank you in advance for your time and the gift of feedback. Please do not hesitate to reach out me if I can help with anything.</p>
             <br/><p>Sincerely,</p>
             <p>${ManagerFirstName} ${ManagerLastName}</p>`;
@@ -343,6 +375,7 @@ exports.updateRecords = async (req, res, next) => {
             user_email: req.body.user_email,
             employee_id: req.body.employee_id,
             manager_id: req.body.manager_id,
+            prev_manager_id: req.body.manager_id,
             company_id: req.body.company_id,
             role: req.body.role,
         },
@@ -396,3 +429,30 @@ exports.deleteRecords = async (req, res, next) => {
     }
 };
 
+exports.updateManagerId = async (req, res, next) => {
+    const t = await sequelize.transaction();
+    try {
+        const EmpDetails = await Collect_feedback.update({
+            manager_id: req.body.manager_id
+        },
+            { where: { manager_id: req.params.id } }, { transaction: t });
+        t.commit();
+        if (!EmpDetails) {
+            return res.status(200).json({
+                status: 404,
+                message: 'No data found'
+            })
+        }
+        res.status(200).json({
+            status: 200,
+            message: 'Record Updated Successfully',
+        });
+    } catch (error) {
+        t.rollback();
+        helper.logger.info(error)
+        return res.status(500).send({
+            message: 'Unable to Delete Record',
+            status: 500
+        });
+    }
+};

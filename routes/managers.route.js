@@ -4,6 +4,7 @@ const { body } = require('express-validator');
 const { validate } = require('../config/validate');
 
 module.exports = (router) => {
+    router.get('/allmanagers', managersController.getAllManagersRecords); 
     router.get('/company/all_users/:comId', managersController.getusersRecords);
     router.get('/company/managers/:comId', managersController.getRecords); 
     router.get('/company/managers/data/allData', managersController.getAllRecords);
