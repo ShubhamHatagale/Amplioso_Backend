@@ -338,38 +338,38 @@ exports.updateRecords = async (req, res, next) => {
 exports.deleteRecords = async (req, res, next) => {
 
   console.log("hhhs")
-  // const t = await sequelize.transaction();
-  // const comId = req.params.id;
-  // Company.findByPk(comId)
-  //   .then(post => {
-  //     if (post.company_logo) {
-  //       clearImage(post.company_logo);
-  //     }
-  //     try {
-  //       const companydetails = Company.update({
-  //         is_deleted: '1'
-  //       },
-  //         { where: { id: comId } }, { transaction: t });
-  //       t.commit();
-  //       if (!companydetails) {
-  //         return res.status(200).json({
-  //           status: 404,
-  //           message: 'No data found'
-  //         })
-  //       }
-  //       res.status(200).json({
-  //         status: 200,
-  //         message: 'Record Deleted Successfully',
-  //       });
-  //     } catch (error) {
-  //       t.rollback();
-  //       helper.logger.info(error)
-  //       return res.status(500).send({
-  //         message: 'Unable to Delete Record',
-  //         status: 500
-  //       });
-  //     }
-  //   })
+  const t = await sequelize.transaction();
+  const comId = req.params.id;
+  Company.findByPk(comId)
+    .then(post => {
+      if (post.company_logo) {
+        clearImage(post.company_logo);
+      }
+      try {
+        const companydetails = Company.update({
+          is_deleted: '1'
+        },
+          { where: { id: comId } }, { transaction: t });
+        t.commit();
+        if (!companydetails) {
+          return res.status(200).json({
+            status: 404,
+            message: 'No data found'
+          })
+        }
+        res.status(200).json({
+          status: 200,
+          message: 'Record Deleted Successfully',
+        });
+      } catch (error) {
+        t.rollback();
+        helper.logger.info(error)
+        return res.status(500).send({
+          message: 'Unable to Delete Record',
+          status: 500
+        });
+      }
+    })
 }
 
 exports.postResetpassword = async (req, res, next) => {
@@ -523,7 +523,6 @@ const clearImage = filePath => {
 
 
 exports.paymt_sts = async (req, res, next) => {
-
   console.log("hhhs2")
   const t = await sequelize.transaction();
   const comId = req.params.id;
