@@ -6,6 +6,7 @@ const helper = require('../config/helpers');
 module.exports = (router) => {
     router.get('/collect_feedback', Collect_feedback.getRecords);
     router.get('/collect_feedback/employee/:EmpId', Collect_feedback.getRecordsByEmpId);
+    router.get('/collect_feedback/manager/:ManId', Collect_feedback.getRecordsByManId);
     router.get('/collect_feedback/company/:ComId', Collect_feedback.getRecordsByComId);
     router.get('/collect_feedback/:id', Collect_feedback.getRecordsById);
     router.get('/collect_feedback/email/:email_id', Collect_feedback.getRecordsByEmailId);
@@ -35,8 +36,9 @@ module.exports = (router) => {
         body('company_id').not().isEmpty().withMessage("This field is Required").isInt().matches(/^[0-9/]+$/).withMessage("Enter valid Comapany Id field."),
         body('role').not().isEmpty().withMessage("This field is Required").isInt().matches(/^[0-9/]+$/).withMessage("Enter valid Role Id field.")
     ]), Collect_feedback.updateRecords);
-
+    router.put('/collect_feedback/update/end_date/:id', Collect_feedback.updateEndDate);
     router.delete('/collect_feedback/:id', Collect_feedback.deleteRecords);
     router.put('/collect_feedback/manager_id/update/:id', Collect_feedback.updateManagerId);
+    router.put('/collect_feedback/extend/update/:id', Collect_feedback.updateManagerId);
 
 }

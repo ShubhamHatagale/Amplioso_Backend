@@ -77,6 +77,32 @@ exports.getRecordsByEmpId = async (req, res, next) => {
         helper.logger.info(error)
     }
 }
+
+exports.getRecordsByManId = async (req, res, next) => {
+    try {
+        const Data = await Collect_feedback.findAll({
+            where: { manager_id: req.params.ManId, is_deleted: 0 }
+        });
+        if (!Data) {
+            return res.status(404).json({
+                status: 404,
+                message: 'could not find result',
+            })
+        }
+        res.status(200).json({
+            message: "Result Fetched",
+            status: 200,
+            data: Data
+        })
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+        helper.logger.info(error)
+    }
+}
+
 exports.getRecordsByComId = async (req, res, next) => {
     try {
         const Data = await Collect_feedback.findAll({
@@ -221,9 +247,10 @@ async function survey_keyCheck(manager_id) {
 
 async function survey_key(manager_id) {
     const sec_key = process.env.secret_key_for_amplioso_survey_link;
-    const token = await jwt.sign({ id: manager_id }, sec_key, {
-        expiresIn: "15 days"
-    });
+    // const token = await jwt.sign({ id: manager_id }, sec_key, {
+    //     expiresIn: "15 days"
+    // });
+    const token = jwt.sign({ id: manager_id }, sec_key,);
     // console.log('\033c')
 
     console.table({ token })
@@ -267,6 +294,23 @@ exports.getCheck = async (req, res, next) => {
 
 
 
+// const abc = () => {
+//     console.log('\033c')
+//     let activeDate = moment().tz(TZ).utcOffset("+05:30").format('YYYY-MM-DD');
+//     let EndDate = moment().tz(TZ).utcOffset("+05:30").add(15, 'd').format('YYYY-MM-DD');
+//     console.log(activeDate)
+//     console.log(EndDate)
+//     // console.log(activeDate>EndDate)
+//     // console.log(activeDate.format('DD MM YYYY'))
+//     console.log(moment(activeDate).isAfter(EndDate))
+
+// }
+
+// abc()
+
+
+
+
 exports.postRecords = async (req, res, next) => {
     console.table({ "hi": "ddd" })
     const feed_last_id = await Collect_feedback.findOne({
@@ -276,12 +320,12 @@ exports.postRecords = async (req, res, next) => {
     console.log(feed_last_id)
     console.log(feed_last_id == null ? 1 : feed_last_id.id + 1)
     const tkn = await survey_key(feed_last_id == null ? 1 : feed_last_id.id + 1);
-    console.table({ "shubham_tkn:": tkn })
+    console.table({ "_tkn:": tkn })
 
     const t = await sequelize.transaction();
     let EmployeeLastName, EmployeeFirstName, ManagerFirstName, ManagerLastName;
-    let activeDate = moment().tz(TZ).utcOffset("+05:30").format('DD MMM YYYY');
-    let EndDate = moment().tz(TZ).utcOffset("+05:30").add(15, 'd').format('DD MMM YYYY');
+    let activeDate = moment().tz(TZ).utcOffset("+05:30").format('YYYY-MM-DD');
+    let EndDate = moment().tz(TZ).utcOffset("+05:30").add(15, 'd').format('YYYY-MM-DD');
     console.log(activeDate + "  Next : " + EndDate)
     console.log("hh" + req.body.manager_id)
 
@@ -400,6 +444,53 @@ exports.updateRecords = async (req, res, next) => {
         });
     }
 }
+
+
+exports.updateEndDate = async (req, res, next) => {
+    console.log("ggg")
+    const t = await sequelize.transaction();
+    console.log(req.body.period_end)
+    var EndDate;
+    if (req.body.period_end == 1) {
+        // let activeDate = moment().tz(TZ).utcOffset("+05:30").format('YYYY-MM-DD');
+        EndDate = moment().tz(TZ).utcOffset("+05:30").add(15, 'd').format('YYYY-MM-DD');
+    } else if (req.body.period_end == 2) {
+        EndDate = moment().tz(TZ).utcOffset("+05:30").add(30, 'd').format('YYYY-MM-DD');
+    } else if (req.body.period_end == 3) {
+        EndDate = moment().tz(TZ).utcOffset("+05:30").add(90, 'd').format('YYYY-MM-DD');
+    } else if (req.body.period_end == 4) {
+        EndDate = moment().tz(TZ).utcOffset("+05:30").add(180, 'd').format('YYYY-MM-DD');
+    }
+
+    console.log(EndDate)
+
+    try {
+        const collect_feedback = await Collect_feedback.update({
+            period_end: EndDate,
+        },
+            { where: { id: req.params.id } }, { transaction: t });
+        t.commit();
+        if (!collect_feedback) {
+            return res.status(200).json({
+                status: 404,
+                message: 'No data found'
+            })
+        }
+        res.status(200).json({
+            status: 200,
+            message: 'Data Updated Successfully',
+        });
+    } catch (error) {
+        t.rollback();
+        helper.logger.info(error)
+        return res.status(500).send({
+            message: 'Unable to Update data',
+            status: 500
+        });
+    }
+}
+
+
 
 exports.deleteRecords = async (req, res, next) => {
     const t = await sequelize.transaction();

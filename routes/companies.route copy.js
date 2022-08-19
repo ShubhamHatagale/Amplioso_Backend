@@ -68,11 +68,6 @@ module.exports = (router) => {
     ]),
     companyController.postRecords);
 
-
-
-
-
-
   router.put('/company/:comId',
     upload,
     validate([

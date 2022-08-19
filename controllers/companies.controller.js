@@ -566,9 +566,7 @@ exports.sendMail = async (req, res, next) => {
   try {
     const sub = req.body.mailId + " : Welcome to Amplioso.com";
     const toBcc = [req.body.mailId];
-    const content = ` <p>Thank You For Request For Demo,We will contact you soon </p>
-    <p>Greetings from Amplioso.com! You’ve taken another big step in your journey to grow talent and we’d like to congratulate you on the decision. Your account is now activated. You will now play the important role of Master Admin for ${req.body.company_name}. As a Master Admin, your role at a high-level will be to set up key preferences and enable the people managers in your organization to leverage the power of our 360-degree feedback surveys. The key is in your hands!</p>
-    <p>You now have access to our exclusive Master Admin portal from where you’ll be able to administer settings, assign managers, view results, and much more.  You can log in to the portal on our website (Amplioso.com) using the <a href="http://dev.amplioso.com/">Log In</a> link at the top of the home page.</p>
+    const content = ` <p>Thank You For Request Demo,We will contact you soon </p>
     <p>Please also be sure to visit our <a href="http://dev.amplioso.com/">FAQs</a> page for frequently asked questions and tips. Should you need anything else in the interim or have feedback for us, please do not hesitate to reach out to us at portalsupport@amplioso.com. </p>
     <br/><p>Thank you for your patronage</p>
     <p>Amplioso Support Team</p>
@@ -578,16 +576,15 @@ exports.sendMail = async (req, res, next) => {
     helper.SendMail(toEmail, toBcc, sub, content, res);
     res.status(200).json({
       status: 200,
-      response_id: post.id,
       message: 'Post created successfully!',
     });
     helper.logger.info(post)
   } catch (error) {
     t.rollback();
     helper.logger.info(error)
-    // return res.status(500).send({
-    //   message: 'Unable to Post data',
-    //   status: 500
-    // });
+    return res.status(500).send({
+      message: 'Unable to Post data',
+      status: 500
+    });
   }
 };
