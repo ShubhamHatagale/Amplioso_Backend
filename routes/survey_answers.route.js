@@ -10,9 +10,9 @@ module.exports = (router) => {
   router.post('/survey_filteredAnswer', survey_answers.getFilteredAnswer);
   router.post('/survey_question_option_mapped_ans', survey_answers.getquestionOptionAnswers);
   router.post('/survey_report_data', survey_answers.getReportData);
-
   router.post('/survey_answers', survey_answers.postRecordsStep1);
   router.put('/survey_answers/:id', survey_answers.updateRecords);
+  router.post('/survey_answers/step5-7', survey_answers.getRecordsForOptions);
 
   // router.post('/survey_answers',
   // validate([

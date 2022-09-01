@@ -60,6 +60,34 @@ exports.getRecordsById = async (req, res, next) => {
 }
 
 
+
+
+exports.getRecordsForOptions = async (req, res, next) => {
+    // console.log(req.body.surveyor_id,req.body.question_id)
+    try {
+        const Data = await survey_answers.findAll({
+            where: { surveyor_id: req.body.surveyor_id, question_id: req.body.question_id, answer: "true" }
+        });
+        if (!Data) {
+            return res.status(404).json({
+                status: 404,
+                message: 'could not find result',
+            })
+        }
+        res.status(200).json({
+            message: "Result Fetched",
+            data: Data.length
+        })
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+        helper.logger.info(error)
+    }
+}
+
+
 exports.getRecordsByOptionUser = async (req, res, next) => {
     try {
         const Data = await survey_answers.findOne({
