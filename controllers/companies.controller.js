@@ -559,8 +559,8 @@ exports.paymt_sts = async (req, res, next) => {
 }
 
 exports.sendMail = async (req, res, next) => {
-  console.log(req.body);
-  console.log("hhyynn");
+  // console.log(req.body);
+  // console.log("hhyynn"); 
 
   const t = await sequelize.transaction();
   try {
@@ -574,11 +574,13 @@ exports.sendMail = async (req, res, next) => {
     <p>360-degree performance evaluations done right</p>`;
     const toEmail = req.body.mailId;
     helper.SendMail(toEmail, toBcc, sub, content, res);
+    // console.log(helper)
     res.status(200).json({
       status: 200,
       message: 'Post created successfully!',
     });
     helper.logger.info(post)
+    // console.log(post)
   } catch (error) {
     t.rollback();
     helper.logger.info(error)
