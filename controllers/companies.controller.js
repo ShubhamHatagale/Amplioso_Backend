@@ -144,8 +144,7 @@ exports.postRecords = async (req, res, next) => {
     <p>Please also be sure to visit our <a href="http://dev.amplioso.com/">FAQs</a> page for frequently asked questions and tips. Should you need anything else in the interim or have feedback for us, please do not hesitate to reach out to us at portalsupport@amplioso.com. </p>
     <br/><p>Thank you for your patronage</p>
     <p>Amplioso Support Team</p>
-    <p> <a href="http://dev.amplioso.com/">www.amplioso.com</a></p>
-    <p>360-degree performance evaluations done right</p>`;
+    <p> <a href="http://dev.amplioso.com/">www.amplioso.com</a></p>`;
       const toEmail = req.body.username;
       helper.SendMail(toEmail, toBcc, sub, content, res);
       res.status(200).json({
@@ -243,8 +242,7 @@ exports.postRecords2 = async (req, res, next) => {
     <p>Please also be sure to visit our <a href="http://dev.amplioso.com/">FAQs</a> page for frequently asked questions and tips. Should you need anything else in the interim or have feedback for us, please do not hesitate to reach out to us at portalsupport@amplioso.com. </p>
     <br/><p>Thank you for your patronage</p>
     <p>Amplioso Support Team</p>
-    <p> <a href="http://dev.amplioso.com/">www.amplioso.com</a></p>
-    <p>360-degree performance evaluations done right</p>`;
+    <p> <a href="http://dev.amplioso.com/">www.amplioso.com</a></p>`;
       const toEmail = req.body.username;
       helper.SendMail(toEmail, toBcc, sub, content, res);
       res.status(200).json({
@@ -416,8 +414,7 @@ exports.postResetpassword = async (req, res, next) => {
     <p>Should you need anything else in the interim or have feedback for us, please do not hesitate to reach out to us at portalsupport@amplioso.com.</p>
     <br/><p>Thank you for your patronage</p>
     <p>Amplioso Support Team</p>
-    <p><a href="http://dev.amplioso.com/">www.amplioso.com</a></p>
-    <p>360-degree performance evaluations done right</p>`;
+    <p><a href="http://dev.amplioso.com/">www.amplioso.com</a></p>`;
     const toEmail = companyEmail;
     helper.SendMail(toEmail, toBcc, sub, content, res);
     res.status(200).json({
@@ -492,8 +489,7 @@ exports.forgotPassword = async (req, res, next) => {
     <p>Should you need anything else in the interim or have feedback for us, please do not hesitate to reach out to us at portalsupport@amplioso.com.</p>
     <br/><p>Thank you for your patronage</p>
     <p>Amplioso Support Team</p>
-    <p><a href="http://dev.amplioso.com/">www.amplioso.com</a></p>
-    <p>360-degree performance evaluations done right</p>`;
+    <p><a href="http://dev.amplioso.com/">www.amplioso.com</a></p>`;
     const toEmail = req.body.username;
     helper.SendMail(toEmail, toBcc, sub, content, res);
     res.status(200).json({
@@ -570,8 +566,7 @@ exports.sendMail = async (req, res, next) => {
     <p>Please also be sure to visit our <a href="http://dev.amplioso.com/">FAQs</a> page for frequently asked questions and tips. Should you need anything else in the interim or have feedback for us, please do not hesitate to reach out to us at portalsupport@amplioso.com. </p>
     <br/><p>Thank you for your patronage</p>
     <p>Amplioso Support Team</p>
-    <p> <a href="http://dev.amplioso.com/">www.amplioso.com</a></p>
-    <p>360-degree performance evaluations done right</p>`;
+    <p> <a href="http://dev.amplioso.com/">www.amplioso.com</a></p>`;
     const toEmail = req.body.mailId;
     helper.SendMail(toEmail, toBcc, sub, content, res);
     // console.log(helper)
@@ -590,3 +585,36 @@ exports.sendMail = async (req, res, next) => {
     });
   }
 };
+
+exports.sendMail2 = async (req, res, next) => {
+  // console.log(req.body);
+  // console.log("hhyynn"); 
+
+  const t = await sequelize.transaction();
+  try {
+    const sub = req.body.mailId + " : Welcome to Amplioso.com";
+    const toBcc = [req.body.mailId];
+    const content = ` <p>Thank you for contacting us. We will get back to you as soon as possible. </p>
+    <p>Please also be sure to visit our <a href="http://dev.amplioso.com/">FAQs</a> page for frequently asked questions and tips. Should you need anything else in the interim or have feedback for us, please do not hesitate to reach out to us at portalsupport@amplioso.com. </p>
+    <br/><p>Thank you for your patronage</p>
+    <p>Amplioso Support Team</p>
+    <p> <a href="http://dev.amplioso.com/">www.amplioso.com</a></p>`;
+    const toEmail = req.body.mailId;
+    helper.SendMail(toEmail, toBcc, sub, content, res);
+    // console.log(helper)
+    res.status(200).json({
+      status: 200,
+      message: 'Post created successfully!',
+    });
+    helper.logger.info(post)
+    // console.log(post)
+  } catch (error) {
+    t.rollback();
+    helper.logger.info(error)
+    return res.status(500).send({
+      message: 'Unable to Post data',
+      status: 500
+    });
+  }
+};
+

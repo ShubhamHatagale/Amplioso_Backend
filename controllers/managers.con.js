@@ -340,8 +340,7 @@ exports.postResetpassword = async (req, res, next) => {
         <p>Should you need anything else in the interim or have feedback for us, please do not hesitate to reach out to us at portalsupport@amplioso.com.</p>
         <br/><p>Thank you for your patronage</p>
         <p>Amplioso Support Team</p>
-        <p><a href="http://dev.amplioso.com/">www.amplioso.com</a></p>
-        <p>360-degree performance evaluations done right</p>`;
+        <p><a href="http://dev.amplioso.com/">www.amplioso.com</a></p>`;
         const toEmail = ManagerEmail;
         helper.SendMail(toEmail, toBcc, sub, content, res);
         res.status(200).json({
@@ -414,8 +413,7 @@ exports.forgotPassword = async (req, res, next) => {
       <p>Should you need anything else in the interim or have feedback for us, please do not hesitate to reach out to us at portalsupport@amplioso.com.</p>
       <br/><p>Thank you for your patronage</p>
       <p>Amplioso Support Team</p>
-      <p><a href="http://dev.amplioso.com/">www.amplioso.com</a></p>
-      <p>360-degree performance evaluations done right</p>`;
+      <p><a href="http://dev.amplioso.com/">www.amplioso.com</a></p>`;
         const toEmail = req.body.user_email;
         helper.SendMail(toEmail, toBcc, sub, content, res);
         res.status(200).json({
