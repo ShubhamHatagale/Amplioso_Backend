@@ -312,10 +312,41 @@ exports.getCheck = async (req, res, next) => {
 
 
 exports.postRecords = async (req, res, next) => {
+    // const t = await sequelize.transaction();
+
     console.table({ "hi": "ddd" })
+    console.log("req.body.file")
+    console.log(req.body.first_name)
+    console.log(req.body.last_name)
+
+    console.log(req.file)
+    console.log(req.body.file)
+
+    
+
+
     const feed_last_id = await Collect_feedback.findOne({
         order: [[`id`, `DESC`]]
     });
+
+    // console.log(req.body.file)
+
+    let image_name = req.file.filename;
+    if (req.file) {
+        image_name = req.file.filename;
+    }
+
+    // let imageUrl = req.body.company_logo;
+    // if (req.file) {
+    //   imageUrl = req.file.filename;
+    //   Company.findByPk(req.params.comId)
+    //     .then(post => {
+    //       if (imageUrl !== post.company_logo) {
+    //         clearImage(post.company_logo);
+    //       }
+    //     })
+    // }
+
     console.log("hddh" + req.body.manager_id)
     console.log(feed_last_id)
     console.log(feed_last_id == null ? 1 : feed_last_id.id + 1)
@@ -335,6 +366,7 @@ exports.postRecords = async (req, res, next) => {
             last_name: req.body.last_name,
             status: req.body.status,
             recipient_role: req.body.recipient_role,
+            prof_img: image_name,
             user_email: req.body.user_email,
             employee_id: req.body.employee_id,
             manager_id: req.body.manager_id,
@@ -407,42 +439,73 @@ exports.postRecords = async (req, res, next) => {
     }
 };
 
+const clearImage = filePath => {
+    dirPath = path.join(__dirname, '../assets/images', filePath);
+    fs.stat(dirPath, (err, stats) => {
+        if (!err) {
+            if (stats.isFile()) {
+                fs.unlink(dirPath, err => console.log(err));
+            }
+        }
+    });
+};
+
+
 exports.updateRecords = async (req, res, next) => {
     console.log("ggg")
+    return false
     const t = await sequelize.transaction();
-    try {
-        const collect_feedback = await Collect_feedback.update({
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            status: req.body.status,
-            recipient_role: req.body.recipient_role,
-            user_email: req.body.user_email,
-            employee_id: req.body.employee_id,
-            manager_id: req.body.manager_id,
-            prev_manager_id: req.body.manager_id,
-            company_id: req.body.company_id,
-            role: req.body.role,
-        },
-            { where: { id: req.params.id } }, { transaction: t });
-        t.commit();
-        if (!collect_feedback) {
-            return res.status(200).json({
-                status: 404,
-                message: 'No data found'
-            })
-        }
-        res.status(200).json({
-            status: 200,
-            message: 'Data Updated Successfully',
-        });
-    } catch (error) {
-        t.rollback();
-        helper.logger.info(error)
-        return res.status(500).send({
-            message: 'Unable to Update data',
-            status: 500
-        });
+    // console.log(req.body.file)
+    console.log("req.body.company_logo")
+    console.log(req.body.company_logo)
+    console.log("file")
+    console.log(req.file)
+
+    if (req.body.file) {
+        imageUrl = req.body.file;
+        clearImage(req.body.file);
+
+        // Company.findByPk(req.params.id)
+        //     .then(post => {
+        //         if (imageUrl !== post.company_logo) {
+        //             clearImage(post.company_logo);
+        //         }
+        //     })
     }
+    // try {
+    //     const collect_feedback = await Collect_feedback.update({
+    //         first_name: req.body.first_name,
+    //         last_name: req.body.last_name,
+    //         status: req.body.status,
+    //         recipient_role: req.body.recipient_role,
+    //         prof_img:req.body.prof_img,
+    //         user_email: req.body.user_email,
+    //         employee_id: req.body.employee_id,
+    //         manager_id: req.body.manager_id,
+    //         prev_manager_id: req.body.manager_id,
+    //         company_id: req.body.company_id,
+    //         role: req.body.role,
+    //     },
+    //         { where: { id: req.params.id } }, { transaction: t });
+    //     t.commit();
+    //     if (!collect_feedback) {
+    //         return res.status(200).json({
+    //             status: 404,
+    //             message: 'No data found'
+    //         })
+    //     }
+    //     res.status(200).json({
+    //         status: 200,
+    //         message: 'Data Updated Successfully',
+    //     });
+    // } catch (error) {
+    //     t.rollback();
+    //     helper.logger.info(error)
+    //     return res.status(500).send({
+    //         message: 'Unable to Update data',
+    //         status: 500
+    //     });
+    // }
 }
 
 

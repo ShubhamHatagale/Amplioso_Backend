@@ -28,6 +28,10 @@ const Collect_feedback = sequelize.define('collect_feedback', {
         type: Sequelize.CHAR,
         allowNull: false,
     },
+    prof_img: {
+        type: Sequelize.CHAR,
+        allowNull: false,
+    },
     period_start: {
         type: Sequelize.DATE,
         allowNull: true,
