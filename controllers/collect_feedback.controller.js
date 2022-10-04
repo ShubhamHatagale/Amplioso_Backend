@@ -141,9 +141,8 @@ exports.getRecordsById = async (req, res, next) => {
     try {
         const Data = await Collect_feedback.findAll({
             include: [
-                { model: Manager, as: 'ManagerId', attributes: ['id', 'first_name'] },
+                { model: Manager, as: 'ManagerId', attributes: ['id', 'first_name', 'last_name'] },
                 { model: Company, as: 'CompanyId', attributes: ['id', 'company_name'] },
-
             ],
             where: { id: req.params.id, is_deleted: 0 }
         });
@@ -322,7 +321,7 @@ exports.postRecords = async (req, res, next) => {
     console.log(req.file)
     console.log(req.body.file)
 
-    
+
 
 
     const feed_last_id = await Collect_feedback.findOne({
