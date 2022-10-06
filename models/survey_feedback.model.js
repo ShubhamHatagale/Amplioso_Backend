@@ -15,7 +15,7 @@ const survey_feedback = sequelize.define('survey_feedback', {
   },
   feature: {
     type: Sequelize.JSON,
-    allowNull: false,
+    allowNull: true,
   },
   feature1: {
     type: Sequelize.JSON,
