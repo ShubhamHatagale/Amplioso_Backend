@@ -23,6 +23,7 @@ var fileFilter = (req, file, cb) => {
 var upload = multer({ storage: storage, fileFilter: fileFilter }).single('prof_img');
 
 module.exports = (router) => {
+    
     router.get('/collect_feedback', Collect_feedback.getRecords);
     router.get('/collect_feedback/employee/:EmpId', Collect_feedback.getRecordsByEmpId);
     router.get('/collect_feedback/manager/:ManId', Collect_feedback.getRecordsByManId);

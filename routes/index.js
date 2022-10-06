@@ -21,6 +21,7 @@ const surveys = require('./surveys.route');
 const survey_analysis = require('./survey_analysis.route');
 const survey_user_mapping = require('./survey_user_mapping.route');
 const survey_answers = require('./survey_answers.route');
+const survey_feedback = require('./survey_feedback.route');
 
 module.exports = (router) => {
     companyRoutes(router);
@@ -45,6 +46,7 @@ module.exports = (router) => {
     survey_analysis(router);
     survey_user_mapping(router);
     survey_answers(router);
+    survey_feedback(router);
 
     return router;
 };
