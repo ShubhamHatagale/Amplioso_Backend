@@ -102,7 +102,7 @@ exports.getusersRecords = async (req, res, next) => {
 }
 
 exports.getRecordsById = async (req, res, next) => {
-    try {
+    try { 
         const Data = await Managers.findAll({
             // include: [
             //     {
