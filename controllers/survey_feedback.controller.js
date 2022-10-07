@@ -105,9 +105,18 @@ exports.postRecords = async (req, res, next) => {
 
 exports.updateRecords = async (req, res, next) => {
     const t = await sequelize.transaction();
+    var feat = `feature1`;
     try {
         const userdetails = await survey_feedback.update({
             feature: req.body.feature,
+            feature1: req.body.feature1,
+            feature2: req.body.feature2,
+            feature3: req.body.feature3,
+            feature4: req.body.feature4,
+            feature5: req.body.feature5,
+            feature6: req.body.feature6,
+            feature7: req.body.feature7,
+            feature8: req.body.feature8,
             updated_by: req.body.updated_by,
             updated_on: (moment().tz(TZ).utcOffset("+05:30").format()),
         },
