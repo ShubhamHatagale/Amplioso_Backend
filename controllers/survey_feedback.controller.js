@@ -7,6 +7,7 @@ var moment = require("moment");
 const TZ = moment.tz("Asia/Kolkata").format();
 const sequelize = require('../config/database');
 const { QueryTypes } = require('sequelize');
+const Managers = require('../models/managers.model');
 
 
 exports.getRecords = async (req, res, next) => {
@@ -37,7 +38,9 @@ exports.getRecords = async (req, res, next) => {
 
 exports.getRecordById = async (req, res, next) => {
     try {
-        const Data = await survey_feedback.findAll();
+        const Data = await survey_feedback.findAll({
+            where: { surveyor_id: req.params.surveyor_id }
+        });
         if (!Data) {
             return res.status(404).json({
                 status: 404,
@@ -45,6 +48,7 @@ exports.getRecordById = async (req, res, next) => {
             })
         }
         res.status(200).json({
+            status: 200,
             message: "Result Fetched",
             data: Data
         })
@@ -171,3 +175,31 @@ exports.deleteRecords = async (req, res, next) => {
     }
 };
 
+exports.getRecordByCompanyId = async (req, res, next) => {
+    try {
+        const Data = await survey_feedback.findAll({
+            where: { company_id: req.params.company_surveyor_id }
+        });
+        // const Data1 = await Managers.findAll({
+        //     where: { company_id: req.params.company_surveyor_id }
+        // });
+
+        if (!Data) {
+            return res.status(404).json({
+                status: 404,
+                message: 'could not find result',
+            })
+        }
+        res.status(200).json({
+            status: 200,
+            message: "Result Fetched",
+            data: Data
+        })
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+        helper.logger.info(error)
+    }
+}

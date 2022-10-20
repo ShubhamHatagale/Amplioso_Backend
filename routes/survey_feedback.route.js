@@ -7,7 +7,8 @@ module.exports = (router) => {
   router.get('/survey_feedback', survey_feedback.getRecords);
   router.post('/survey_feedback', survey_feedback.postRecords);
   router.put('/survey_feedback/:surveyor_id', survey_feedback.updateRecords);
-  router.get('/survey_feedback/:id', survey_feedback.getRecordById);
+  router.get('/survey_feedback/:surveyor_id', survey_feedback.getRecordById);
+  router.get('/survey_feedback/company/:company_surveyor_id', survey_feedback.getRecordByCompanyId);
 
   // router.post('/survey_feedback/step5-7', survey_feedback.getRecordsForOptions);
 
