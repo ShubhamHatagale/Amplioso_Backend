@@ -4,6 +4,7 @@ const Employee = require('./employee.model');
 const Company = require('./companies.model');
 const Manager = require('./managers.model');
 const Role = require('./roles.model');
+const FeedBack = require('./feedback_frequencies.model');
 
 const Collect_feedback = sequelize.define('collect_feedback', {
     id: {
@@ -39,6 +40,14 @@ const Collect_feedback = sequelize.define('collect_feedback', {
     period_end: {
         type: Sequelize.DATE,
         allowNull: true,
+    },
+    feedback_frequency: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: FeedBack,
+            key: 'id',
+        }
     },
     employee_id: {
         type: Sequelize.INTEGER,

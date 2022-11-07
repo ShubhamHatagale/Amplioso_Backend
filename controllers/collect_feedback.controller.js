@@ -137,6 +137,13 @@ exports.getRecordsByComId = async (req, res, next) => {
         helper.logger.info(error)
     }
 }
+
+
+
+
+
+
+
 exports.getRecordsById = async (req, res, next) => {
     try {
         const Data = await Collect_feedback.findAll({
@@ -171,6 +178,32 @@ exports.getRecordsByEmailId = async (req, res, next) => {
     try {
         const Data = await Collect_feedback.findAll({
             where: { user_email: req.params.email_id, is_deleted: 0 }
+        });
+        if (!Data) {
+            return res.status(404).json({
+                status: 404,
+                message: 'could not find result',
+            })
+        }
+        res.status(200).json({
+            message: "Result Fetched",
+            status: 200,
+            data: Data
+        })
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+        helper.logger.info(error)
+    }
+}
+
+
+exports.getRecordsByFeedFreq = async (req, res, next) => {
+    try {
+        const Data = await Collect_feedback.findAll({
+            where: { feedback_frequency: req.params.feedFreq, is_deleted: 0 }
         });
         if (!Data) {
             return res.status(404).json({
@@ -367,6 +400,7 @@ exports.postRecords = async (req, res, next) => {
             recipient_role: req.body.recipient_role,
             prof_img: image_name,
             user_email: req.body.user_email,
+            feedback_frequency: req.body.feedback_frequency,
             employee_id: req.body.employee_id,
             manager_id: req.body.manager_id,
             prev_manager_id: req.body.manager_id,
