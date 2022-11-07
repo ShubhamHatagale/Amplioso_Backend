@@ -1,6 +1,6 @@
 const { INTEGER, ENUM } = require('sequelize');
 const Sequelize = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../config/database'); 
 const User = require('../models/users.model');
 
 const Feedbackfreq = sequelize.define('feedback_frequencies', {
