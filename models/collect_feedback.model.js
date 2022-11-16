@@ -29,10 +29,10 @@ const Collect_feedback = sequelize.define('collect_feedback', {
         type: Sequelize.CHAR,
         allowNull: false,
     },
-    prof_img: {
-        type: Sequelize.CHAR,
-        allowNull: false,
-    },
+    // prof_img: {
+    //     type: Sequelize.CHAR,
+    //     allowNull: false,
+    // },
     period_start: {
         type: Sequelize.DATE,
         allowNull: true,
@@ -40,6 +40,10 @@ const Collect_feedback = sequelize.define('collect_feedback', {
     period_end: {
         type: Sequelize.DATE,
         allowNull: true,
+    },
+    feedback_year: {
+        type: Sequelize.INTEGER,
+        allowNull: false
     },
     feedback_frequency: {
         type: Sequelize.INTEGER,

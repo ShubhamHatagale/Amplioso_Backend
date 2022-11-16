@@ -142,7 +142,7 @@ exports.getRecordsById = async (req, res, next) => {
             message: "Result Fetched",
             data: EmployeeData
         })
-    } catch (error) {
+    } catch (error) { 
         if (!error.statusCode) {
             error.statusCode = 500;
         }
@@ -152,12 +152,27 @@ exports.getRecordsById = async (req, res, next) => {
 }
 
 exports.postRecords = async (req, res, next) => {
+    console.log(req.body.gender)
+
+    // return false
     const t = await sequelize.transaction();
     let ManagerLastName;
     let ManagerFirstName;
     let activeDate = moment().tz(TZ).utcOffset("+05:30").format('DD MMM YYYY');
     let EndDate = moment().tz(TZ).utcOffset("+05:30").add(15, 'd').format('DD MMM YYYY');
     console.log(activeDate + "  Next : " + EndDate)
+
+    console.log(req.file)
+    console.log(req.body.file)
+
+    console.log(req.body)
+    console.log(req.body.gender)
+    console.log(req.body.first_name)
+
+    var image_name = req.file.filename;
+    if (req.file) {
+        image_name = req.file.filename;
+    }
 
     try {
         const CreateEmployee = await Employee.create({
@@ -179,7 +194,8 @@ exports.postRecords = async (req, res, next) => {
             service_external_client: req.body.service_external_client,
             location: req.body.location,
             working_presence: req.body.working_presence,
-            year_of_experience: req.body.year_of_experience
+            year_of_experience: req.body.year_of_experience,
+            prof_img: image_name
         }, { transaction: t })
         t.commit();
         const Data = await Manager.findAll({
@@ -215,14 +231,21 @@ exports.postRecords = async (req, res, next) => {
         t.rollback();
         helper.logger.info(error)
         return res.status(500).send({
-            message: 'Unable to Update data',
+            message: 'Unable to post data',
             status: 500
         });
     }
 };
 
 exports.updateRecords = async (req, res, next) => {
-    console.log("hh")
+    console.log("hh") 
+
+
+    let image_name = req.file.filename;
+    if (req.file) {
+        image_name = req.file.filename;
+    }
+
 
     const t = await sequelize.transaction();
     try {
@@ -243,7 +266,8 @@ exports.updateRecords = async (req, res, next) => {
             service_external_client: req.body.service_external_client,
             location: req.body.location,
             working_presence: req.body.working_presence,
-            year_of_experience: req.body.year_of_experience
+            year_of_experience: req.body.year_of_experience,
+            prof_img: image_name
         },
             { where: { id: req.params.id } }, { transaction: t });
         t.commit();

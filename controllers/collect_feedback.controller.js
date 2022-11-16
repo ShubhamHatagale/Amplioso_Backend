@@ -78,6 +78,43 @@ exports.getRecordsByEmpId = async (req, res, next) => {
     }
 }
 
+
+exports.getRecordsByEmpIdFeedfreqYear = async (req, res, next) => {
+    console.log(req.body.employee_id)
+    console.log(req.body.feedback_frequency)
+    console.log(req.body.year)
+
+    // return false
+    try {
+        const Data = await Collect_feedback.findOne({
+            // include: [{
+            //     model: Role,
+            //     as: 'ViewRole',
+            //     attributes: ['id', 'role'],
+            // },],
+            where: { employee_id: req.body.employee_id,feedback_frequency:req.body.feedback_frequency,feedback_year:req.body.year,is_deleted: 0 }
+        });
+        if (!Data) {
+            return res.status(404).json({
+                status: 404,
+                message: 'could not find result',
+            })
+        }
+        res.status(200).json({
+            message: "Result Fetched",
+            status: 200,
+            data: Data
+        })
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+        helper.logger.info(error)
+    }
+}
+
+
 exports.getRecordsByManId = async (req, res, next) => {
     try {
         const Data = await Collect_feedback.findAll({
@@ -201,9 +238,11 @@ exports.getRecordsByEmailId = async (req, res, next) => {
 
 
 exports.getRecordsByFeedFreq = async (req, res, next) => {
+    console.log(req.body.feedFreq)
+    // return false
     try {
         const Data = await Collect_feedback.findAll({
-            where: { feedback_frequency: req.params.feedFreq, is_deleted: 0 }
+            where: { feedback_frequency: req.body.feedFreq, employee_id: req.body.employee_id, is_deleted: 0 }
         });
         if (!Data) {
             return res.status(404).json({
@@ -351,8 +390,8 @@ exports.postRecords = async (req, res, next) => {
     console.log(req.body.first_name)
     console.log(req.body.last_name)
 
-    console.log(req.file)
-    console.log(req.body.file)
+    // console.log(req.file)
+    // console.log(req.body.file)
 
 
 
@@ -363,10 +402,10 @@ exports.postRecords = async (req, res, next) => {
 
     // console.log(req.body.file)
 
-    let image_name = req.file.filename;
-    if (req.file) {
-        image_name = req.file.filename;
-    }
+    // let image_name = req.file.filename;
+    // if (req.file) {
+    //     image_name = req.file.filename;
+    // }
 
     // let imageUrl = req.body.company_logo;
     // if (req.file) {
@@ -398,9 +437,10 @@ exports.postRecords = async (req, res, next) => {
             last_name: req.body.last_name,
             status: req.body.status,
             recipient_role: req.body.recipient_role,
-            prof_img: image_name,
+            // prof_img: image_name,
             user_email: req.body.user_email,
             feedback_frequency: req.body.feedback_frequency,
+            feedback_year: req.body.feedback_year,
             employee_id: req.body.employee_id,
             manager_id: req.body.manager_id,
             prev_manager_id: req.body.manager_id,
@@ -485,7 +525,7 @@ const clearImage = filePath => {
 
 
 exports.updateRecords = async (req, res, next) => {
-    console.log("ggg")
+    console.log("ggg") 
     return false
     const t = await sequelize.transaction();
     // console.log(req.body.file)
