@@ -76,6 +76,7 @@ module.exports = (router) => {
     Employee.updateRecords);
 
     router.put('/employeedetails/manager_id/update/:id', Employee.updateManagerId);
+    router.put('/employeedetails/manager_id/updateprofile_img/:id',upload, Employee.updateprofile_img);
 
     router.delete('/employeedetails/:id', Employee.deleteRecords);
 

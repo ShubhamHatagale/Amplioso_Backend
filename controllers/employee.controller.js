@@ -345,3 +345,38 @@ exports.updateManagerId = async (req, res, next) => {
         });
     }
 };
+
+exports.updateprofile_img = async (req, res, next) => {
+
+    let image_name = req.file.filename;
+    if (req.file) {
+        image_name = req.file.filename;
+    }
+
+    console.log(req.body)
+    const t = await sequelize.transaction();
+    try {
+        const EmpDetails = await Employee.update({
+            prof_img: image_name
+        },
+            { where: { id: req.params.id } }, { transaction: t });
+        t.commit();
+        if (!EmpDetails) {
+            return res.status(200).json({
+                status: 404,
+                message: 'No data found'
+            })
+        }
+        res.status(200).json({
+            status: 200,
+            message: 'Record Updated Successfully',
+        });
+    } catch (error) {
+        t.rollback();
+        helper.logger.info(error)
+        return res.status(500).send({
+            message: 'Unable to Delete Record',
+            status: 500
+        });
+    }
+};
