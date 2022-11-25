@@ -8,6 +8,9 @@ const PORT = process.env.PORT;
 
 const app = express();
 app.use(bodyParser.json());
+// app.use(express.static('data/img'));
+// app.use(express.static(__dirname + '/data/img'));
+
 
 app.use(bodyParser.urlencoded({ extended: true }))
 
