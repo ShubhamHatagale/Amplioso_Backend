@@ -35,7 +35,7 @@ const Company = sequelize.define('companies', {
     },
     comapany_headquaters: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: Countries,
             key: 'id',
@@ -43,11 +43,11 @@ const Company = sequelize.define('companies', {
     },
     date_of_inception: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     number_of_employee: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: EmployeeStrength,
             key: 'id',
@@ -63,7 +63,7 @@ const Company = sequelize.define('companies', {
     },
     business_sector: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: Sector,
             key: 'id',
@@ -71,7 +71,7 @@ const Company = sequelize.define('companies', {
     },
     average_employee_compansation: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: Compensation,
             key: 'id',
@@ -79,7 +79,7 @@ const Company = sequelize.define('companies', {
     },
     feedback_frequency: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: FeedBack,
             key: 'id',
