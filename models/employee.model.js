@@ -116,7 +116,7 @@ const Employee = sequelize.define('employee', {
     },
     prof_img: {
         type: Sequelize.CHAR,
-        allowNull: false,
+        allowNull: true,
     },
     is_deleted: {
         type: Sequelize.BOOLEAN,

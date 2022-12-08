@@ -160,19 +160,21 @@ exports.postRecords = async (req, res, next) => {
     let ManagerFirstName;
     let activeDate = moment().tz(TZ).utcOffset("+05:30").format('DD MMM YYYY');
     let EndDate = moment().tz(TZ).utcOffset("+05:30").add(15, 'd').format('DD MMM YYYY');
-    console.log(activeDate + "  Next : " + EndDate)
+    // console.log(activeDate + "  Next : " + EndDate)
 
-    console.log(req.file)
-    console.log(req.body.file)
+    // console.log(req.file)
+    // console.log(req.body.file)
 
-    console.log(req.body)
-    console.log(req.body.gender)
-    console.log(req.body.first_name)
+    // console.log(req.body)
+    // console.log(req.body.gender)
+    // console.log(req.body.first_name)
 
-    var image_name = req.file.filename;
+    var image_name="null";
     if (req.file) {
         image_name = req.file.filename;
     }
+
+    // console.log(image_name)
 
     try {
         const CreateEmployee = await Employee.create({
@@ -238,10 +240,9 @@ exports.postRecords = async (req, res, next) => {
 };
 
 exports.updateRecords = async (req, res, next) => {
-    console.log("hh") 
+    console.log("hh")
 
-
-    let image_name = req.file.filename;
+    let image_name;
     if (req.file) {
         image_name = req.file.filename;
     }
@@ -249,6 +250,7 @@ exports.updateRecords = async (req, res, next) => {
 
     const t = await sequelize.transaction();
     try {
+        console.log("upd data")
         const UpdateEmployee = await Employee.update({
             first_name: req.body.first_name,
             last_name: req.body.last_name,
@@ -348,7 +350,7 @@ exports.updateManagerId = async (req, res, next) => {
 
 exports.updateprofile_img = async (req, res, next) => {
 
-    let image_name = req.file.filename;
+    let image_name;
     if (req.file) {
         image_name = req.file.filename;
     }
