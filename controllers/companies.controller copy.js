@@ -158,7 +158,7 @@ exports.postRecords2 = async (req, res, next) => {
     <p>Greetings from Amplioso.com! You’ve taken another big step in your journey to grow talent and we’d like to congratulate you on the decision. Your account is now activated. You will now play the important role of Master Admin for ${req.body.company_name}. As a Master Admin, your role at a high-level will be to set up key preferences and enable the people managers in your organization to leverage the power of our 360-degree feedback surveys. The key is in your hands!</p>
     <p>You now have access to our exclusive Master Admin portal from where you’ll be able to administer settings, assign managers, view results, and much more.  You can log in to the portal on our website (Amplioso.com) using the <a href="http://dev.amplioso.com/master_admin/login/">Log In</a> link at the top of the home page.</p>
     <p>Username: ${req.body.username}</p>
-        <p>Password: ${password}</p>
+        <p>Password: ${password}</p> 
     <p>Please also be sure to visit our <a href="http://dev.amplioso.com/">FAQs</a> page for frequently asked questions and tips. Should you need anything else in the interim or have feedback for us, please do not hesitate to reach out to us at portalsupport@amplioso.com. </p>
     <br/><p>Thank you for your patronage</p>
     <p>Amplioso Support Team</p>
