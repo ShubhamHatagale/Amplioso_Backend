@@ -32,8 +32,7 @@ module.exports = (router) => {
     router.get('/collect_feedback/email/:email_id', Collect_feedback.getRecordsByEmailId);
     router.post('/collect_feedback/feedFreq', Collect_feedback.getRecordsByFeedFreq);
     router.get('/collect_feedback/check/test/getCheck', Collect_feedback.getCheck);
-    router.post('/collect_feedback/feedback_report', Collect_feedback.getRecordsByEmpIdFeedfreqYear);
-
+    router.post('/collect_feedback/feedback_report', Collect_feedback.getRecordsByManagerIdEmpIdFeedfreqYear);
     router.post('/check_survey_key', Collect_feedback.check_survey_key);
     // router.post('/collect_feedback', upload, Collect_feedback.postRecords);
 

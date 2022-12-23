@@ -77,9 +77,9 @@ exports.getRecordsByEmpId = async (req, res, next) => {
         helper.logger.info(error)
     }
 }
+ 
 
-
-exports.getRecordsByEmpIdFeedfreqYear = async (req, res, next) => {
+exports.getRecordsByManagerIdEmpIdFeedfreqYear = async (req, res, next) => {
     console.log(req.body.employee_id)
     console.log(req.body.feedback_frequency)
     console.log(req.body.year)
@@ -92,7 +92,7 @@ exports.getRecordsByEmpIdFeedfreqYear = async (req, res, next) => {
             //     as: 'ViewRole',
             //     attributes: ['id', 'role'],
             // },],
-            where: { employee_id: req.body.employee_id,feedback_frequency:req.body.feedback_frequency,feedback_year:req.body.year,is_deleted: 0 }
+            where: { manager_id: req.body.manager_id,employee_id: req.body.employee_id,feedback_frequency:req.body.feedback_frequency,feedback_year:req.body.year,is_deleted: 0 }
         });
         if (!Data) {
             return res.status(404).json({
