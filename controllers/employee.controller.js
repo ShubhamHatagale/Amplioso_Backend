@@ -128,7 +128,7 @@ exports.getRecordsById = async (req, res, next) => {
             include: [
                 { model: Manager, as: 'ManagerId', attributes: ['id', 'first_name'] },
                 { model: Countries, as: 'CountryId', attributes: ['id', 'country_name'] },
-                { model: Company, as: 'CompanyId', attributes: ['id', 'company_name'] }
+                { model: Company, as: 'CompanyId', attributes: ['id', 'company_name','feedback_frequency'] }
             ],
             where: { id: req.params.id, is_deleted: 0 }
         });
