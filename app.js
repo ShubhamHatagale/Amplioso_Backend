@@ -30,4 +30,8 @@ sequelize.sync().then(result => {
 })
 
 
+app.get("/", (req, res) => {
+    res.send("Amplioso Backend working,connection created successfully");
+});
+
 

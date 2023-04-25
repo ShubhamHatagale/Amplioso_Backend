@@ -50,11 +50,11 @@ exports.getRecordsByEmpId = async (req, res, next) => {
                 // { model: Managers, as: 'CFManagerId', attributes: ['id', 'first_name'] },
                 // { model: Employee, as: 'CFEmployeeId', attributes: ['id', 'first_name'] },
                 // { model: Company, as: 'CFCompanyId', attributes: ['id', 'company_name'] },
-                {
-                    model: Role,
-                    as: 'ViewRole',
-                    attributes: ['id', 'role'],
-                },
+                // {
+                //     model: Role,
+                //     as: 'ViewRole',
+                //     attributes: ['id', 'role'],
+                // },
             ],
             where: { employee_id: req.params.EmpId, is_deleted: 0 }
         });

@@ -6,3 +6,24 @@ PORT=9000
 GMAIL_USER=shubhamhatagale22249@gmail.com
 GMAIL_PASS=Markiv@2021
 secret_key_for_amplioso_survey_link=2868bc33f842f61c1caf6df26f3c8045d964312766c8594c3af83d667f3366e8
+
+
+.env-
+
+DB_HOST=127.0.0.1
+DB_USER=acdbjwmyzg
+DB_DATA=acdbjwmyzg
+DB_PASS=Conversant@1999
+PORT=3000
+GMAIL_USER=shubhamhatagale22249@gmail.com
+GMAIL_PASS=zviukxwqpabpkpft
+GMAIL_Old_PASS=Markiv@2021
+
+
+.htaccess
+secret_key_for_amplioso_survey_link=2868bc33f842f61c1caf6df26f3c8045d964312766c8594c3af83d667f3366e8
+# Redirect traffic to your port 3000
+#DirectoryIndex index.php
+RewriteEngine On
+RewriteBase /
+RewriteRule ^(.*)?$ http://127.0.0.1:3001/$1 [P,L]
